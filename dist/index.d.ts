@@ -1,5 +1,5 @@
 import { AvailableLoanResponse, AvailableShipResponse, FlightPlanResponse, LoanType, LocationsResponse, MarketplaceResponse, PurchaseResponse, StatusResponse, TokenResponse } from './types';
-export declare class SpaceTrades {
+export declare class SpaceTraders {
     getStatus(): Promise<StatusResponse>;
     createUser(newUsername: string): Promise<TokenResponse>;
     getAccount(username: string, token: string): Promise<StatusResponse>;
