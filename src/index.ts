@@ -17,14 +17,14 @@ const BASE_URL = 'https://api.spacetraders.io'
 
 export class SpaceTraders {
   async getStatus() {
-    const url = '/game/status'
+    const url = `${BASE_URL}/game/status`
     const resp = await axios.get<StatusResponse>(url)
 
     return resp.data
   }
 
   async createUser(newUsername: string) {
-    const url = `/users/${newUsername}/token`
+    const url = `${BASE_URL}/users/${newUsername}/token`
     const resp = await axios.post<TokenResponse>(url)
 
     if (resp.status >= 300) throw new Error('Username is taken')
