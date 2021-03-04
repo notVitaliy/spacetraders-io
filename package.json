@@ -1,7 +1,7 @@
 {
   "name": "spacetraders-sdk",
-  "version": "0.0.4",
-  "main": "./dist/index.cjs.js",
+  "version": "0.0.5",
+  "main": "./dist/index.js",
   "module": "./dist/index.js",
   "scripts": {
     "clean": "rimraf ./dist",
