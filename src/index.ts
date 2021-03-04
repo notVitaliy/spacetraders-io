@@ -54,14 +54,14 @@ export class SpaceTraders {
     const url = `/users/${username}/loans`
     const payload = { type }
 
-    return this.makeAuthRequest(url, 'post', token, payload)
+    return this.makeAuthRequest<AccountResponse>(url, 'post', token, payload)
   }
 
   async purchaseShip(username: string, token: string, location: string, type: string) {
     const url = `/users/${username}/ships`
     const payload = { location, type }
 
-    return this.makeAuthRequest(url, 'post', token, payload)
+    return this.makeAuthRequest<AccountResponse>(url, 'post', token, payload)
   }
 
   async purchaseGood(username: string, token: string, shipId: string, good: string, quantity: number) {
