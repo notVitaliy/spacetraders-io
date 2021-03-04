@@ -1,5 +1,6 @@
 {
   "name": "spacetraders-sdk",
+  "repository": "https://github.com/notVitaliy/spacetraders-io.git",
   "version": "0.0.6",
   "main": "./dist/index.js",
   "module": "./dist/index.js",
