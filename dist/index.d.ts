@@ -1,8 +1,8 @@
-import { AvailableLoanResponse, AvailableShipResponse, FlightPlanResponse, LoanType, LocationsResponse, MarketplaceResponse, PurchaseResponse, StatusResponse, TokenResponse } from './types';
+import { AccountResponse, AvailableLoanResponse, AvailableShipResponse, FlightPlanResponse, LoanType, LocationsResponse, MarketplaceResponse, PurchaseResponse, StatusResponse, TokenResponse } from './types';
 export declare class SpaceTraders {
     getStatus(): Promise<StatusResponse>;
     createUser(newUsername: string): Promise<TokenResponse>;
-    getAccount(username: string, token: string): Promise<StatusResponse>;
+    getAccount(username: string, token: string): Promise<AccountResponse>;
     viewAvailableLoans(token: string): Promise<AvailableLoanResponse>;
     viewAvailableShips(token: string): Promise<AvailableShipResponse>;
     takeOutLoan(username: string, token: string, type: LoanType): Promise<unknown>;

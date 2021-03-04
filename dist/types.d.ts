@@ -97,7 +97,7 @@ export interface TokenResponse {
         updatedAt: string;
     };
 }
-export interface StatusResponse {
+export interface AccountResponse {
     user: {
         username: string;
         credits: number;

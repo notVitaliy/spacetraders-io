@@ -1,0 +1,40 @@
+{
+  "manifest": {
+    "name": "spacetraders-sdk",
+    "version": "0.0.6",
+    "main": "./dist/index.js",
+    "module": "./dist/index.js",
+    "scripts": {
+      "clean": "rimraf ./dist",
+      "build": "yarn clean && rollup -c ./rollup.config.js",
+      "watch": "yarn build --watch",
+      "build:es": "rollup -c ./rollup.config.js --file ./dist/index.js --format es",
+      "build:cjs": "rollup -c ./rollup.config.js --file ./dist/index.cjs.js --format cjs",
+      "build:all": "yarn clean && yarn build:es && yarn build:cjs"
+    },
+    "dependencies": {
+      "axios": "^0.21.1"
+    },
+    "devDependencies": {
+      "rimraf": "^3.0.2",
+      "rollup": "^2.40.0",
+      "rollup-plugin-typescript2": "^0.30.0",
+      "tslint": "^6.1.3",
+      "typescript": "^4.2.2"
+    },
+    "_registry": "npm",
+    "_loc": "/home/notvitaliy/.cache/yarn/v6/npm-spacetraders-sdk-0.0.6-4a099f4a-7370-4dbf-9acb-5400d7785b88-1614881669989/node_modules/spacetraders-sdk/package.json",
+    "readmeFilename": "README.md",
+    "readme": "# Spacetrades.io Javascript/Typescript SDK\n\n##\n\n`npm i spacetraders-sdk`\n",
+    "description": "##"
+  },
+  "artifacts": [],
+  "remote": {
+    "type": "copy",
+    "registry": "npm",
+    "hash": "4a099f4a-7370-4dbf-9acb-5400d7785b88-1614881669989",
+    "reference": "/home/notvitaliy/projects/spacetraders-bot/vendor/spacetraders.io"
+  },
+  "registry": "npm",
+  "hash": "4a099f4a-7370-4dbf-9acb-5400d7785b88-1614881669989"
+}

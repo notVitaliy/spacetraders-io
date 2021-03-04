@@ -1,6 +1,7 @@
 import axios from 'axios'
 
 import {
+  AccountResponse,
   AvailableLoanResponse,
   AvailableShipResponse,
   FlightPlanResponse,
@@ -34,7 +35,7 @@ export class SpaceTraders {
   async getAccount(username: string, token: string) {
     const url = `/users/${username}`
 
-    return this.makeAuthRequest<StatusResponse>(url, 'get', token)
+    return this.makeAuthRequest<AccountResponse>(url, 'get', token)
   }
 
   async viewAvailableLoans(token: string) {

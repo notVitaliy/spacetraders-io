@@ -109,7 +109,7 @@ export interface TokenResponse {
   }
 }
 
-export interface StatusResponse {
+export interface AccountResponse {
   user: {
     username: string
     credits: number
