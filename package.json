@@ -1,0 +1,22 @@
+{
+  "name": "spacetraders-sdk",
+  "version": "0.0.1",
+  "scripts": {
+    "clean": "rimraf ./dist",
+    "build": "yarn clean && rollup -c ./rollup.config.js",
+    "watch": "yarn build --watch",
+    "build:es": "rollup -c ./rollup.config.js --file ./dist/index.js --format es",
+    "build:cjs": "rollup -c ./rollup.config.js --file ./dist/index.cjs.js --format cjs",
+    "build:all": "yarn clean && yarn build:es && yarn build:cjs"
+  },
+  "dependencies": {
+    "axios": "^0.21.1"
+  },
+  "devDependencies": {
+    "rimraf": "^3.0.2",
+    "rollup": "^2.40.0",
+    "rollup-plugin-typescript2": "^0.30.0",
+    "tslint": "^6.1.3",
+    "typescript": "^4.2.2"
+  }
+}
