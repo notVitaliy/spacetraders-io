@@ -6,6 +6,7 @@ export declare class SpaceTraders {
     viewAvailableLoans(token: string): Promise<AvailableLoanResponse>;
     viewAvailableShips(token: string): Promise<AvailableShipResponse>;
     takeOutLoan(username: string, token: string, type: LoanType): Promise<AccountResponse>;
+    payBackLoan(username: string, token: string, loanId: string): Promise<AccountResponse>;
     purchaseShip(username: string, token: string, location: string, type: string): Promise<AccountResponse>;
     purchaseGood(username: string, token: string, shipId: string, good: string, quantity: number): Promise<PurchaseResponse>;
     sellGood(username: string, token: string, shipId: string, good: string, quantity: number): Promise<PurchaseResponse>;

@@ -32,46 +32,52 @@ export class SpaceTraders {
     return resp.data
   }
 
-  async getAccount(username: string, token: string) {
+  getAccount(username: string, token: string) {
     const url = `/users/${username}`
 
     return this.makeAuthRequest<AccountResponse>(url, 'get', token)
   }
 
-  async viewAvailableLoans(token: string) {
+  viewAvailableLoans(token: string) {
     const url = '/game/loans'
 
     return this.makeAuthRequest<AvailableLoanResponse>(url, 'get', token)
   }
 
-  async viewAvailableShips(token: string) {
+  viewAvailableShips(token: string) {
     const url = '/game/ships'
 
     return this.makeAuthRequest<AvailableShipResponse>(url, 'get', token)
   }
 
-  async takeOutLoan(username: string, token: string, type: LoanType) {
+  takeOutLoan(username: string, token: string, type: LoanType) {
     const url = `/users/${username}/loans`
     const payload = { type }
 
     return this.makeAuthRequest<AccountResponse>(url, 'post', token, payload)
   }
 
-  async purchaseShip(username: string, token: string, location: string, type: string) {
+  payBackLoan(username: string, token: string, loanId: string) {
+    const url = `/users/${username}/loans/${loanId}`
+
+    return this.makeAuthRequest<AccountResponse>(url, 'put', token)
+  }
+
+  purchaseShip(username: string, token: string, location: string, type: string) {
     const url = `/users/${username}/ships`
     const payload = { location, type }
 
     return this.makeAuthRequest<AccountResponse>(url, 'post', token, payload)
   }
 
-  async purchaseGood(username: string, token: string, shipId: string, good: string, quantity: number) {
+  purchaseGood(username: string, token: string, shipId: string, good: string, quantity: number) {
     const url = `/users/${username}/purchase-orders`
     const payload = { shipId, good, quantity }
 
     return this.makeAuthRequest<PurchaseResponse>(url, 'post', token, payload)
   }
 
-  async sellGood(username: string, token: string, shipId: string, good: string, quantity: number) {
+  sellGood(username: string, token: string, shipId: string, good: string, quantity: number) {
     const url = `/users/${username}/sell-orders`
     const payload = { shipId, good, quantity }
 
@@ -96,7 +102,7 @@ export class SpaceTraders {
     return this.makeAuthRequest<FlightPlanResponse>(url, 'get', token)
   }
 
-  async createFlightPlan(username: string, token: string, shipId: string, destination: number) {
+  createFlightPlan(username: string, token: string, shipId: string, destination: number) {
     const url = `/users/${username}/flight-plans`
     const payload = { shipId, destination }
 
@@ -105,7 +111,7 @@ export class SpaceTraders {
 
   private async makeAuthRequest<T>(
     url: string,
-    method: 'get' | 'post',
+    method: 'get' | 'post' | 'put',
     token: string,
     payload: Record<string, any> = {},
   ) {
@@ -113,7 +119,7 @@ export class SpaceTraders {
     const resp =
       method === 'get'
         ? await axios.get<T>(`${BASE_URL}/${url}`, { headers })
-        : await axios.post<T>(`${BASE_URL}/${url}`, payload, { headers })
+        : await axios[method]<T>(`${BASE_URL}/${url}`, payload, { headers })
 
     if (resp.status >= 300) throw new Error('Invalid token')
 
