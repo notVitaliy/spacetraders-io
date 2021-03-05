@@ -88,9 +88,10 @@ class SpaceTraders {
     makeAuthRequest(url, method, token, payload = {}) {
         return __awaiter(this, void 0, void 0, function* () {
             const headers = this.makeHeaders(token);
+            const fullUrl = `${BASE_URL}${url}`;
             const resp = method === 'get'
-                ? yield axios_1.default.get(`${BASE_URL}/${url}`, { headers })
-                : yield axios_1.default[method](`${BASE_URL}/${url}`, payload, { headers });
+                ? yield axios_1.default.get(fullUrl, { headers })
+                : yield axios_1.default[method](fullUrl, payload, { headers });
             if (resp.status >= 300)
                 throw new Error('Invalid token');
             return resp.data;

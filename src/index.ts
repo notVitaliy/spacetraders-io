@@ -116,10 +116,12 @@ export class SpaceTraders {
     payload: Record<string, any> = {},
   ) {
     const headers = this.makeHeaders(token)
+    const fullUrl = `${BASE_URL}${url}`
+
     const resp =
       method === 'get'
-        ? await axios.get<T>(`${BASE_URL}/${url}`, { headers })
-        : await axios[method]<T>(`${BASE_URL}/${url}`, payload, { headers })
+        ? await axios.get<T>(fullUrl, { headers })
+        : await axios[method]<T>(fullUrl, payload, { headers })
 
     if (resp.status >= 300) throw new Error('Invalid token')
 
