@@ -68,6 +68,10 @@ class SpaceTraders {
         const payload = { shipId, good, quantity };
         return this.makeAuthRequest(url, 'post', token, payload);
     }
+    listLocations(token, system = 'OE') {
+        const url = `/game/systems/${system}/locations`;
+        return this.makeAuthRequest(url, 'get', token);
+    }
     listAsteroids(token, system = 'OE', type = 'ASTEROID') {
         const url = `/game/systems/${system}/locations?type=${type}`;
         return this.makeAuthRequest(url, 'get', token);

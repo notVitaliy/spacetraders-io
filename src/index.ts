@@ -84,6 +84,12 @@ export class SpaceTraders {
     return this.makeAuthRequest<PurchaseResponse>(url, 'post', token, payload)
   }
 
+  listLocations(token: string, system: string = 'OE') {
+    const url = `/game/systems/${system}/locations`
+
+    return this.makeAuthRequest<LocationsResponse>(url, 'get', token)
+  }
+
   listAsteroids(token: string, system: string = 'OE', type: string = 'ASTEROID') {
     const url = `/game/systems/${system}/locations?type=${type}`
 

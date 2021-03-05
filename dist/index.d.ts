@@ -10,6 +10,7 @@ export declare class SpaceTraders {
     purchaseShip(username: string, token: string, location: string, type: string): Promise<AccountResponse>;
     purchaseGood(username: string, token: string, shipId: string, good: string, quantity: number): Promise<PurchaseResponse>;
     sellGood(username: string, token: string, shipId: string, good: string, quantity: number): Promise<PurchaseResponse>;
+    listLocations(token: string, system?: string): Promise<LocationsResponse>;
     listAsteroids(token: string, system?: string, type?: string): Promise<LocationsResponse>;
     getMarketplace(token: string, location: string): Promise<MarketplaceResponse>;
     getFlightPlan(token: string): Promise<FlightPlanResponse>;
