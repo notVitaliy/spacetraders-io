@@ -68,7 +68,7 @@ export class SpaceTraders {
   }
 
   takeOutLoan(type: LoanType) {
-    const url = this.makeUserPath('/loans')
+    const url = this.makeUserPath('loans')
     const payload = { type }
 
     return this.makeAuthRequest<AccountResponse>(url, 'post', payload)
@@ -81,21 +81,21 @@ export class SpaceTraders {
   }
 
   purchaseShip(location: string, type: string) {
-    const url = this.makeUserPath('/ships')
+    const url = this.makeUserPath('ships')
     const payload = { location, type }
 
     return this.makeAuthRequest<AccountResponse>(url, 'post', payload)
   }
 
   purchaseGood(shipId: string, good: string, quantity: number) {
-    const url = this.makeUserPath('/purchase-orders')
+    const url = this.makeUserPath('purchase-orders')
     const payload = { shipId, good, quantity }
 
     return this.makeAuthRequest<PurchaseResponse>(url, 'post', payload)
   }
 
   sellGood(shipId: string, good: string, quantity: number) {
-    const url = this.makeUserPath('/sell-orders')
+    const url = this.makeUserPath('sell-orders')
     const payload = { shipId, good, quantity }
 
     return this.makeAuthRequest<PurchaseResponse>(url, 'post', payload)
@@ -120,7 +120,7 @@ export class SpaceTraders {
   }
 
   createFlightPlan(shipId: string, destination: number) {
-    const url = this.makeUserPath('/flight-plans')
+    const url = this.makeUserPath('flight-plans')
     const payload = { shipId, destination }
 
     return this.makeAuthRequest<FlightPlanResponse>(url, 'post', payload)
@@ -153,7 +153,7 @@ export class SpaceTraders {
     if (resp.status >= 404) throw new Error('User not found.')
     if (typeof (resp.data as ErrorResponse).error !== 'undefined') throw new Error((resp.data as ErrorResponse).error.message)
 
-    return resp.data
+    return resp.data as T
   }
 
   private sendRequest<T>(request: () => Promise<[Error, AxiosResponse<T | ErrorResponse>]>) {

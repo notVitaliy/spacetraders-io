@@ -56,7 +56,7 @@ class SpaceTraders {
         return this.makeAuthRequest(url, 'get');
     }
     takeOutLoan(type) {
-        const url = this.makeUserPath('/loans');
+        const url = this.makeUserPath('loans');
         const payload = { type };
         return this.makeAuthRequest(url, 'post', payload);
     }
@@ -65,17 +65,17 @@ class SpaceTraders {
         return this.makeAuthRequest(url, 'put');
     }
     purchaseShip(location, type) {
-        const url = this.makeUserPath('/ships');
+        const url = this.makeUserPath('ships');
         const payload = { location, type };
         return this.makeAuthRequest(url, 'post', payload);
     }
     purchaseGood(shipId, good, quantity) {
-        const url = this.makeUserPath('/purchase-orders');
+        const url = this.makeUserPath('purchase-orders');
         const payload = { shipId, good, quantity };
         return this.makeAuthRequest(url, 'post', payload);
     }
     sellGood(shipId, good, quantity) {
-        const url = this.makeUserPath('/sell-orders');
+        const url = this.makeUserPath('sell-orders');
         const payload = { shipId, good, quantity };
         return this.makeAuthRequest(url, 'post', payload);
     }
@@ -92,7 +92,7 @@ class SpaceTraders {
         return this.makeAuthRequest(url, 'get');
     }
     createFlightPlan(shipId, destination) {
-        const url = this.makeUserPath('/flight-plans');
+        const url = this.makeUserPath('flight-plans');
         const payload = { shipId, destination };
         return this.makeAuthRequest(url, 'post', payload);
     }
