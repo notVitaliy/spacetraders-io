@@ -1,4 +1,25 @@
-export type LoanType = 'STARTUP' | 'ENTERPRISE'
+export type LoanType = 'STARTUP'
+
+export type Good =
+  | 'CHEMICALS'
+  | 'CONSTRUCTION_MATERIALS'
+  | 'CONSUMER_GOODS'
+  | 'ELECTROINICS'
+  | 'FOOD'
+  | 'FUEL'
+  | 'MACHINERY'
+  | 'METALS'
+  | 'RESEARCH'
+  | 'SHIP_PARTS'
+  | 'TEXTILES'
+  | 'WORKERS'
+
+export interface User {
+  username: string
+  credits: number
+  loans: YourLoan[]
+  ships: YourShip[]
+}
 
 export interface Loan {
   type: LoanType
@@ -54,16 +75,14 @@ export interface YourShip {
 }
 
 export interface Cargo {
-  good: string
+  good: Good
   quantity: number
 }
 
-export interface Location {
+export interface Location extends Coordinates {
   name: string
   symbol: string
   type: string
-  x: number
-  y: number
 }
 
 export interface FlightPlan {
@@ -77,19 +96,23 @@ export interface FlightPlan {
   timeRemainingInSeconds: number
 }
 
-export interface Planet {
+export interface Coordinates {
+  x: number
+  y: number
+}
+
+export interface Planet extends Coordinates {
   marketplace: Marketplace[]
   name: string
   symbol: string
   type: string
-  x: number
-  y: number
 }
 
 export interface Marketplace {
   available: number
   pricePerUnit: number
-  symbol: string
+  volumePerUnit: number
+  symbol: Good
 }
 
 export interface StatusResponse {
@@ -110,12 +133,7 @@ export interface TokenResponse {
 }
 
 export interface AccountResponse {
-  user: {
-    username: string
-    credits: number
-    loans: YourLoan[]
-    ships: YourShip[]
-  }
+  user: User
 }
 
 export interface AvailableLoanResponse {
@@ -147,4 +165,11 @@ export interface FlightPlanResponse {
 
 export interface MarketplaceResponse {
   planet: Planet
+}
+
+export interface ErrorResponse {
+  error: {
+    code: number
+    message: string
+  }
 }
