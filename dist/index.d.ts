@@ -1,20 +1,31 @@
-import { AccountResponse, AvailableLoanResponse, AvailableShipResponse, FlightPlanResponse, LoanType, LocationsResponse, MarketplaceResponse, PurchaseResponse, StatusResponse, TokenResponse } from './types';
+import { AccountResponse, AvailableLoanResponse, AvailableShipResponse, ErrorResponse, FlightPlanResponse, LoanType, LocationsResponse, MarketplaceResponse, PurchaseResponse, StatusResponse } from './types';
+interface LimiterOptions {
+    maxConcurrent?: number;
+    minTime?: number;
+}
 export declare class SpaceTraders {
+    private username;
+    private token;
+    private limiter;
+    constructor(options?: LimiterOptions);
+    init(username: string, token?: string): Promise<string>;
     getStatus(): Promise<StatusResponse>;
-    createUser(newUsername: string): Promise<TokenResponse>;
-    getAccount(username: string, token: string): Promise<AccountResponse>;
-    viewAvailableLoans(token: string): Promise<AvailableLoanResponse>;
-    viewAvailableShips(token: string): Promise<AvailableShipResponse>;
-    takeOutLoan(username: string, token: string, type: LoanType): Promise<AccountResponse>;
-    payBackLoan(username: string, token: string, loanId: string): Promise<AccountResponse>;
-    purchaseShip(username: string, token: string, location: string, type: string): Promise<AccountResponse>;
-    purchaseGood(username: string, token: string, shipId: string, good: string, quantity: number): Promise<PurchaseResponse>;
-    sellGood(username: string, token: string, shipId: string, good: string, quantity: number): Promise<PurchaseResponse>;
-    listLocations(token: string, system?: string): Promise<LocationsResponse>;
-    listAsteroids(token: string, system?: string, type?: string): Promise<LocationsResponse>;
-    getMarketplace(token: string, location: string): Promise<MarketplaceResponse>;
-    getFlightPlan(token: string): Promise<FlightPlanResponse>;
-    createFlightPlan(username: string, token: string, shipId: string, destination: number): Promise<FlightPlanResponse>;
+    getAccount(): Promise<AccountResponse | ErrorResponse>;
+    viewAvailableLoans(): Promise<AvailableLoanResponse | ErrorResponse>;
+    viewAvailableShips(): Promise<AvailableShipResponse | ErrorResponse>;
+    takeOutLoan(type: LoanType): Promise<AccountResponse | ErrorResponse>;
+    payBackLoan(loanId: string): Promise<AccountResponse | ErrorResponse>;
+    purchaseShip(location: string, type: string): Promise<AccountResponse | ErrorResponse>;
+    purchaseGood(shipId: string, good: string, quantity: number): Promise<PurchaseResponse | ErrorResponse>;
+    sellGood(shipId: string, good: string, quantity: number): Promise<PurchaseResponse | ErrorResponse>;
+    listLocations(system?: string, type?: string): Promise<LocationsResponse | ErrorResponse>;
+    getMarketplace(location: string): Promise<MarketplaceResponse | ErrorResponse>;
+    getFlightPlan(flightId: string): Promise<FlightPlanResponse | ErrorResponse>;
+    createFlightPlan(shipId: string, destination: number): Promise<FlightPlanResponse | ErrorResponse>;
+    private createUser;
     private makeAuthRequest;
+    private sendRequest;
+    private makeUserPath;
     private makeHeaders;
 }
+export {};
