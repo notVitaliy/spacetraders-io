@@ -117,16 +117,18 @@ class SpaceTraders {
             const fullUrl = `${BASE_URL}${url}`;
             const request = () => utils_1.asyncWrap(method === 'get' ? axios_1.default.get(fullUrl, { headers }) : axios_1.default[method](fullUrl, payload, { headers }));
             const [error, resp] = yield this.sendRequest(request);
-            if (resp.status === 429 && retry < this.maxRetries) {
-                const retryAfter = ((_a = resp.headers['Retry-After']) !== null && _a !== void 0 ? _a : 1) * 1000;
+            const status = error ? error.response.status : resp.status;
+            const responseHeaders = error ? error.response.headers : resp.headers;
+            if (status === 429 && retry < this.maxRetries) {
+                const retryAfter = ((_a = responseHeaders['retry-after']) !== null && _a !== void 0 ? _a : 1) * 1000;
                 yield utils_1.asyncSleep(retryAfter);
                 return this.makeAuthRequest(url, method, payload, retry++);
             }
-            if (resp.status === 429)
+            if (status === 429)
                 throw new Error('Too many requests.');
-            if (resp.status === 401 || resp.status === 403)
+            if (status === 401 || status === 403)
                 throw new Error('Invalid token.');
-            if (resp.status === 404)
+            if (status === 404)
                 throw new Error('User not found.');
             if (error)
                 throw new Error(error.message);
@@ -138,6 +140,8 @@ class SpaceTraders {
     sendRequest(request) {
         if (this.limiter)
             return this.limiter.schedule(() => request());
+        if (this.useSharedLimiter)
+            return SpaceTraders.limiter.schedule(() => request());
         return request();
     }
     makeUserPath(fragment) {
