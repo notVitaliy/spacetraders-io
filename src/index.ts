@@ -38,8 +38,8 @@ export class SpaceTraders {
   private useSharedLimiter = false
 
   constructor(options?: Options, limiterOptions?: LimiterOptions) {
-    this.useSharedLimiter = Boolean(options.useSharedLimiter)
-    if (options.maxRetries) this.maxRetries = options.maxRetries
+    if (options) this.useSharedLimiter = Boolean(options.useSharedLimiter)
+    if (options && options.maxRetries) this.maxRetries = options.maxRetries
 
     this.initLimiter(limiterOptions)
   }
@@ -131,7 +131,7 @@ export class SpaceTraders {
     return this.makeAuthRequest<FlightPlanResponse>(url, 'get')
   }
 
-  createFlightPlan(shipId: string, destination: number) {
+  createFlightPlan(shipId: string, destination: string) {
     const url = this.makeUserPath('flight-plans')
     const payload = { shipId, destination }
 

@@ -24,8 +24,9 @@ class SpaceTraders {
         this.token = null;
         this.username = null;
         this.useSharedLimiter = false;
-        this.useSharedLimiter = Boolean(options.useSharedLimiter);
-        if (options.maxRetries)
+        if (options)
+            this.useSharedLimiter = Boolean(options.useSharedLimiter);
+        if (options && options.maxRetries)
             this.maxRetries = options.maxRetries;
         this.initLimiter(limiterOptions);
     }

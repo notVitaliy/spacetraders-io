@@ -1,4 +1,24 @@
-export type LoanType = 'STARTUP'
+export interface Cargo {
+  good: Good
+  quantity: number
+}
+
+export interface Coordinates {
+  x: number
+  y: number
+}
+
+export interface FlightPlan {
+  arrivesAt: string
+  destination: string
+  distance: number
+  fuelConsumed: number
+  fuelRemaining: number
+  id: string
+  ship: string
+  terminatedAt: string
+  timeRemainingInSeconds: number
+}
 
 export type Good =
   | 'CHEMICALS'
@@ -14,19 +34,44 @@ export type Good =
   | 'TEXTILES'
   | 'WORKERS'
 
-export interface User {
-  username: string
-  credits: number
-  loans: YourLoan[]
-  ships: YourShip[]
-}
-
 export interface Loan {
   type: LoanType
   amount: number
   collateralRequired: boolean
   rate: number
   termInDays: number
+}
+
+export type LoanType = 'STARTUP'
+
+export interface Location extends Coordinates {
+  name: string
+  symbol: string
+  type: string
+}
+
+export interface Marketplace {
+  quantityAvailable: number
+  pricePerUnit: number
+  volumePerUnit: number
+  symbol: Good
+}
+export interface Order {
+  good: string
+  pricePerUnit: number
+  quantity: number
+  total: number
+}
+
+export interface Planet extends Coordinates {
+  marketplace: Marketplace[]
+  name: string
+  symbol: string
+  type: string
+}
+
+export interface StatusResponse {
+  status: string
 }
 
 export interface Ship {
@@ -37,19 +82,20 @@ export interface Ship {
   manufacturer: string
   maxCargo: number
   plating: number
-  purchaseLocations: [
-    {
-      location: string
-      price: number
-    },
-    {
-      location: string
-      price: number
-    },
-  ]
+  purchaseLocations: {
+    location: string
+    price: number
+  }[]
   speed: number
   type: string
   weapons: number
+}
+
+export interface User {
+  username: string
+  credits: number
+  loans: YourLoan[]
+  ships: YourShip[]
 }
 
 export interface YourLoan {
@@ -74,63 +120,7 @@ export interface YourShip {
   weapons: number
 }
 
-export interface Cargo {
-  good: Good
-  quantity: number
-}
-
-export interface Location extends Coordinates {
-  name: string
-  symbol: string
-  type: string
-}
-
-export interface FlightPlan {
-  arrivesAt: string
-  destination: string
-  fuelConsumed: number
-  fuelRemaining: number
-  id: string
-  ship: string
-  terminatedAt: string
-  timeRemainingInSeconds: number
-}
-
-export interface Coordinates {
-  x: number
-  y: number
-}
-
-export interface Planet extends Coordinates {
-  marketplace: Marketplace[]
-  name: string
-  symbol: string
-  type: string
-}
-
-export interface Marketplace {
-  available: number
-  pricePerUnit: number
-  volumePerUnit: number
-  symbol: Good
-}
-
-export interface StatusResponse {
-  status: string
-}
-
-export interface TokenResponse {
-  token: string
-  user: {
-    id: string
-    username: string
-    picture: string
-    email: string
-    credits: number
-    createdAt: string
-    updatedAt: string
-  }
-}
+// Responses
 
 export interface AccountResponse {
   user: User
@@ -144,17 +134,12 @@ export interface AvailableShipResponse {
   ships: Ship[]
 }
 
-export interface PurchaseResponse {
-  credits: number
-  order: {
-    good: string
-    pricePerUnit: number
-    quantity: number
-    total: number
+export interface ErrorResponse {
+  error: {
+    code: number
+    message: string
   }
-  ship: YourShip
 }
-
 export interface LocationsResponse {
   locations: Location[]
 }
@@ -167,9 +152,20 @@ export interface MarketplaceResponse {
   planet: Planet
 }
 
-export interface ErrorResponse {
-  error: {
-    code: number
-    message: string
+export interface PurchaseResponse {
+  credits: number
+  order: [Order]
+  ship: YourShip
+}
+export interface TokenResponse {
+  token: string
+  user: {
+    id: string
+    username: string
+    picture: string
+    email: string
+    credits: number
+    createdAt: string
+    updatedAt: string
   }
 }

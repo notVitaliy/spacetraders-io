@@ -28,7 +28,7 @@ export declare class SpaceTraders {
     listLocations(system?: string, type?: string): Promise<LocationsResponse>;
     getMarketplace(location: string): Promise<MarketplaceResponse>;
     getFlightPlan(flightId: string): Promise<FlightPlanResponse>;
-    createFlightPlan(shipId: string, destination: number): Promise<FlightPlanResponse>;
+    createFlightPlan(shipId: string, destination: string): Promise<FlightPlanResponse>;
     private createUser;
     private makeAuthRequest;
     private sendRequest;
