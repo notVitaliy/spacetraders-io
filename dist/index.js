@@ -110,7 +110,7 @@ class SpaceTraders {
             return resp.data.token;
         });
     }
-    makeAuthRequest(url, method, payload = {}, retry = 1) {
+    makeAuthRequest(url, method, payload = {}, retry = 0) {
         var _a;
         return __awaiter(this, void 0, void 0, function* () {
             const headers = this.makeHeaders(this.token);

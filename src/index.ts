@@ -149,7 +149,7 @@ export class SpaceTraders {
     return resp.data.token
   }
 
-  private async makeAuthRequest<T>(url: string, method: 'get' | 'post' | 'put', payload: Record<string, any> = {}, retry = 1): Promise<T> {
+  private async makeAuthRequest<T>(url: string, method: 'get' | 'post' | 'put', payload: Record<string, any> = {}, retry = 0): Promise<T> {
     const headers = this.makeHeaders(this.token)
     const fullUrl = `${BASE_URL}${url}`
 
