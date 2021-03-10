@@ -84,8 +84,16 @@ class SpaceTraders {
         const payload = { shipId, good, quantity };
         return this.makeAuthRequest(url, 'post', payload);
     }
+    listSystems() {
+        const url = '/game/systems';
+        return this.makeAuthRequest(url, 'get');
+    }
     listLocations(system = 'OE', type) {
         const url = !type ? `/game/systems/${system}/locations` : `/game/systems/${system}/locations?type=${type}`;
+        return this.makeAuthRequest(url, 'get');
+    }
+    getLocation(location) {
+        const url = `/game/locations/${location}`;
         return this.makeAuthRequest(url, 'get');
     }
     getMarketplace(location) {

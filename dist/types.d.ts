@@ -44,10 +44,12 @@ export interface Order {
     total: number;
 }
 export interface Planet extends Coordinates {
-    marketplace: Marketplace[];
     name: string;
     symbol: string;
     type: string;
+}
+export interface PlanetWithMarketplace extends Planet {
+    marketplace: Marketplace[];
 }
 export interface StatusResponse {
     status: string;
@@ -67,6 +69,11 @@ export interface Ship {
     speed: number;
     type: string;
     weapons: number;
+}
+export interface System {
+    symbol: string;
+    name: string;
+    locations: Location[];
 }
 export interface User {
     username: string;
@@ -109,6 +116,9 @@ export interface ErrorResponse {
         message: string;
     };
 }
+export interface LocationResponse {
+    planet: Planet;
+}
 export interface LocationsResponse {
     locations: Location[];
 }
@@ -116,12 +126,15 @@ export interface FlightPlanResponse {
     flightPlan: FlightPlan;
 }
 export interface MarketplaceResponse {
-    planet: Planet;
+    planet: PlanetWithMarketplace;
 }
 export interface PurchaseResponse {
     credits: number;
     order: [Order];
     ship: YourShip;
+}
+export interface SystemsResponse {
+    systems: System;
 }
 export interface TokenResponse {
     token: string;

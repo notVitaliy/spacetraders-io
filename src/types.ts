@@ -64,10 +64,13 @@ export interface Order {
 }
 
 export interface Planet extends Coordinates {
-  marketplace: Marketplace[]
   name: string
   symbol: string
   type: string
+}
+
+export interface PlanetWithMarketplace extends Planet {
+  marketplace: Marketplace[]
 }
 
 export interface StatusResponse {
@@ -89,6 +92,12 @@ export interface Ship {
   speed: number
   type: string
   weapons: number
+}
+
+export interface System {
+  symbol: string
+  name: string
+  locations: Location[]
 }
 
 export interface User {
@@ -140,6 +149,11 @@ export interface ErrorResponse {
     message: string
   }
 }
+
+export interface LocationResponse {
+  planet: Planet
+}
+
 export interface LocationsResponse {
   locations: Location[]
 }
@@ -149,7 +163,7 @@ export interface FlightPlanResponse {
 }
 
 export interface MarketplaceResponse {
-  planet: Planet
+  planet: PlanetWithMarketplace
 }
 
 export interface PurchaseResponse {
@@ -157,6 +171,11 @@ export interface PurchaseResponse {
   order: [Order]
   ship: YourShip
 }
+
+export interface SystemsResponse {
+  systems: System
+}
+
 export interface TokenResponse {
   token: string
   user: {

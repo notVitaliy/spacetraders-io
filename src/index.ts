@@ -8,6 +8,7 @@ import {
   ErrorResponse,
   FlightPlanResponse,
   LoanType,
+  LocationResponse,
   LocationsResponse,
   MarketplaceResponse,
   PurchaseResponse,
@@ -113,10 +114,22 @@ export class SpaceTraders {
     return this.makeAuthRequest<PurchaseResponse>(url, 'post', payload)
   }
 
+  listSystems() {
+    const url = '/game/systems'
+
+    return this.makeAuthRequest<LocationResponse>(url, 'get')
+  }
+
   listLocations(system: string = 'OE', type?: string) {
     const url = !type ? `/game/systems/${system}/locations` : `/game/systems/${system}/locations?type=${type}`
 
     return this.makeAuthRequest<LocationsResponse>(url, 'get')
+  }
+
+  getLocation(location: string) {
+    const url = `/game/locations/${location}`
+
+    return this.makeAuthRequest<LocationResponse>(url, 'get')
   }
 
   getMarketplace(location: string) {

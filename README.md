@@ -70,7 +70,7 @@ const spaceTraders = new SpaceTraders({ useSharedLimiter: true }, { maxConcurren
 Submit a new flight plan
 
 ```typescript
-spaceTraders.createFlightPlan(shipId: string, destination: number): Promise<FlightPlanResponse>
+spaceTraders.createFlightPlan(shipId: string, destination: string): Promise<FlightPlanResponse>
 ```
 
 ### [getAccount](https://api.spacetraders.io/#api-users-GetInfo)
@@ -87,6 +87,14 @@ Get info on an existing flight plan
 
 ```typescript
 spaceTraders.getFlightPlan(): Promise<FlightPlanResponse>
+```
+
+### [getLocation](https://api.spacetraders.io/#api-locations-location)
+
+Get info on a location
+
+```typescript
+spaceTraders.getLocation(location: string): Promise<LocationResponse>;
 ```
 
 ### [getMarketplace](https://api.spacetraders.io/#api-marketplace-marketplace)
@@ -111,6 +119,14 @@ Get locations in a system
 
 ```typescript
 spaceTraders.listLocations(system?: string, type?: string): Promise<LocationsResponse>
+```
+
+### [listSystems](https://api.spacetraders.io/#api-systems-systems)
+
+Get systems info
+
+```typescript
+spaceTraders.listSystems(): Promise<LocationResponse>
 ```
 
 ### [payBackLoan](https://api.spacetraders.io/#api-loans)
