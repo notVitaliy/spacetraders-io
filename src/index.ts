@@ -14,9 +14,14 @@ import {
   StatusResponse,
   TokenResponse,
 } from './types'
-import { asyncWrap } from './utils'
+import { asyncSleep, asyncWrap } from './utils'
 
 const BASE_URL = 'https://api.spacetraders.io'
+
+interface Options {
+  useSharedLimiter?: boolean
+  maxRetries?: number
+}
 
 interface LimiterOptions {
   maxConcurrent?: number
@@ -24,12 +29,19 @@ interface LimiterOptions {
 }
 
 export class SpaceTraders {
-  private username: string = null
-  private token: string = null
-  private limiter: Bottleneck = null
+  private static limiter: Bottleneck = null
 
-  constructor(options?: LimiterOptions) {
-    if (options) this.limiter = new Bottleneck(options)
+  private limiter: Bottleneck = null
+  private maxRetries = 3
+  private token: string = null
+  private username: string = null
+  private useSharedLimiter = false
+
+  constructor(options?: Options, limiterOptions?: LimiterOptions) {
+    this.useSharedLimiter = Boolean(options.useSharedLimiter)
+    if (options.maxRetries) this.maxRetries = options.maxRetries
+
+    this.initLimiter(limiterOptions)
   }
 
   async init(username: string, token?: string) {
@@ -137,7 +149,7 @@ export class SpaceTraders {
     return resp.data.token
   }
 
-  private async makeAuthRequest<T>(url: string, method: 'get' | 'post' | 'put', payload: Record<string, any> = {}) {
+  private async makeAuthRequest<T>(url: string, method: 'get' | 'post' | 'put', payload: Record<string, any> = {}, retry = 1): Promise<T> {
     const headers = this.makeHeaders(this.token)
     const fullUrl = `${BASE_URL}${url}`
 
@@ -148,9 +160,17 @@ export class SpaceTraders {
 
     const [error, resp] = await this.sendRequest(request)
 
+    if (resp.status === 429 && retry < this.maxRetries) {
+      const retryAfter = (resp.headers['Retry-After'] ?? 1) * 1000
+      await asyncSleep(retryAfter)
+
+      return this.makeAuthRequest<T>(url, method, payload, retry++)
+    }
+
+    if (resp.status === 429) throw new Error('Too many requests.')
+    if (resp.status === 401 || resp.status === 403) throw new Error('Invalid token.')
+    if (resp.status === 404) throw new Error('User not found.')
     if (error) throw new Error(error.message)
-    if (resp.status === 401 || resp.status >= 403) throw new Error('Invalid token.')
-    if (resp.status >= 404) throw new Error('User not found.')
     if (typeof (resp.data as ErrorResponse).error !== 'undefined') throw new Error((resp.data as ErrorResponse).error.message)
 
     return resp.data as T
@@ -168,5 +188,14 @@ export class SpaceTraders {
 
   private makeHeaders(token: string) {
     return { Authorization: `Bearer ${token}` }
+  }
+
+  private initLimiter(limiterOptions: LimiterOptions) {
+    if (!limiterOptions) return
+
+    const limiter = new Bottleneck(limiterOptions)
+
+    if (!this.useSharedLimiter) this.limiter = limiter
+    else if (!SpaceTraders.limiter) SpaceTraders.limiter = limiter
   }
 }

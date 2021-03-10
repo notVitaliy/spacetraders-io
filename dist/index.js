@@ -18,12 +18,16 @@ const bottleneck_1 = __importDefault(require("bottleneck"));
 const utils_1 = require("./utils");
 const BASE_URL = 'https://api.spacetraders.io';
 class SpaceTraders {
-    constructor(options) {
-        this.username = null;
-        this.token = null;
+    constructor(options, limiterOptions) {
         this.limiter = null;
-        if (options)
-            this.limiter = new bottleneck_1.default(options);
+        this.maxRetries = 3;
+        this.token = null;
+        this.username = null;
+        this.useSharedLimiter = false;
+        this.useSharedLimiter = Boolean(options.useSharedLimiter);
+        if (options.maxRetries)
+            this.maxRetries = options.maxRetries;
+        this.initLimiter(limiterOptions);
     }
     init(username, token) {
         return __awaiter(this, void 0, void 0, function* () {
@@ -106,18 +110,26 @@ class SpaceTraders {
             return resp.data.token;
         });
     }
-    makeAuthRequest(url, method, payload = {}) {
+    makeAuthRequest(url, method, payload = {}, retry = 1) {
+        var _a;
         return __awaiter(this, void 0, void 0, function* () {
             const headers = this.makeHeaders(this.token);
             const fullUrl = `${BASE_URL}${url}`;
             const request = () => utils_1.asyncWrap(method === 'get' ? axios_1.default.get(fullUrl, { headers }) : axios_1.default[method](fullUrl, payload, { headers }));
             const [error, resp] = yield this.sendRequest(request);
+            if (resp.status === 429 && retry < this.maxRetries) {
+                const retryAfter = ((_a = resp.headers['Retry-After']) !== null && _a !== void 0 ? _a : 1) * 1000;
+                yield utils_1.asyncSleep(retryAfter);
+                return this.makeAuthRequest(url, method, payload, retry++);
+            }
+            if (resp.status === 429)
+                throw new Error('Too many requests.');
+            if (resp.status === 401 || resp.status === 403)
+                throw new Error('Invalid token.');
+            if (resp.status === 404)
+                throw new Error('User not found.');
             if (error)
                 throw new Error(error.message);
-            if (resp.status === 401 || resp.status >= 403)
-                throw new Error('Invalid token.');
-            if (resp.status >= 404)
-                throw new Error('User not found.');
             if (typeof resp.data.error !== 'undefined')
                 throw new Error(resp.data.error.message);
             return resp.data;
@@ -134,5 +146,16 @@ class SpaceTraders {
     makeHeaders(token) {
         return { Authorization: `Bearer ${token}` };
     }
+    initLimiter(limiterOptions) {
+        if (!limiterOptions)
+            return;
+        const limiter = new bottleneck_1.default(limiterOptions);
+        if (!this.useSharedLimiter)
+            this.limiter = limiter;
+        else if (!SpaceTraders.limiter)
+            SpaceTraders.limiter = limiter;
+    }
 }
 exports.SpaceTraders = SpaceTraders;
+SpaceTraders.limiter = null;
+//# sourceMappingURL=index.js.map

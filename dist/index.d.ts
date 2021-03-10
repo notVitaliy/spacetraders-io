@@ -1,13 +1,20 @@
 import { AccountResponse, AvailableLoanResponse, AvailableShipResponse, FlightPlanResponse, LoanType, LocationsResponse, MarketplaceResponse, PurchaseResponse, StatusResponse } from './types';
+interface Options {
+    useSharedLimiter?: boolean;
+    maxRetries?: number;
+}
 interface LimiterOptions {
     maxConcurrent?: number;
     minTime?: number;
 }
 export declare class SpaceTraders {
-    private username;
-    private token;
+    private static limiter;
     private limiter;
-    constructor(options?: LimiterOptions);
+    private maxRetries;
+    private token;
+    private username;
+    private useSharedLimiter;
+    constructor(options?: Options, limiterOptions?: LimiterOptions);
     init(username: string, token?: string): Promise<string>;
     getStatus(): Promise<StatusResponse>;
     getAccount(): Promise<AccountResponse>;
@@ -27,5 +34,6 @@ export declare class SpaceTraders {
     private sendRequest;
     private makeUserPath;
     private makeHeaders;
+    private initLimiter;
 }
 export {};

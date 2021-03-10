@@ -12,6 +12,8 @@ or
 
 The SDK will keep your username + token in memory. It's important that you save the token for a new user otherwise you'll lose access to that user.
 
+The SDK will attempt to retry 429 http status codes up to 3 (default value) times for a request before throwing an error.
+
 ```typescript
 import { SpaceTraders } from 'spacetraders-sdk'
 
@@ -24,24 +26,41 @@ spaceTraders.init('username', 'token')
 const token = await spaceTraders.init('username')
 ```
 
-### Basic rate-limiting
+### Options
 
 ```typescript
-/**
- * How many jobs can be running at the same time.
- */
-maxConcurrent?: number
-/**
- * How long to wait after launching a job before launching another one.
- */
-minTime?: number
+interface Options {
+  /**
+   * If all instances of SpaceTraders should use the same limiter. Defaults to false.
+   */
+  useSharedLimiter?: boolean;
+  /**
+   * Maximum amount of 429 (Rate-Limited) retries. Defaults to 3.
+   */
+  maxRetries?: number
+}
+
+interface LimiterOptions {
+  /**
+   * How many jobs can be running at the same time. No default.
+   */
+  maxConcurrent?: number;
+  /**
+   * How long to wait after launching a job before launching another one. No default.
+   */
+  minTime?: number;
+}
+
+constructor(options?: Options, limiterOptions?: LimiterOptions)
 
 ```
+
+### Basic rate-limiting
 
 ```typescript
 import { SpaceTraders } from 'spacetraders-sdk'
 
-const spaceTraders = new SpaceTraders({ maxConcurrent: 2, minTime: 500 })
+const spaceTraders = new SpaceTraders({ useSharedLimiter: true }, { maxConcurrent: 2, minTime: 500 })
 ```
 
 ## Methods
