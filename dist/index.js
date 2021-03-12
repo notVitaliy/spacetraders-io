@@ -15,6 +15,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.SpaceTraders = void 0;
 const axios_1 = __importDefault(require("axios"));
 const bottleneck_1 = __importDefault(require("bottleneck"));
+const errors_1 = require("./errors");
 const utils_1 = require("./utils");
 const BASE_URL = 'https://api.spacetraders.io';
 class SpaceTraders {
@@ -66,13 +67,25 @@ class SpaceTraders {
         return this.makeAuthRequest(url, 'post', payload);
     }
     payBackLoan(loanId) {
-        const url = this.makeUserPath(`/loans/${loanId}`);
+        const url = this.makeUserPath(`loans/${loanId}`);
         return this.makeAuthRequest(url, 'put');
     }
     purchaseShip(location, type) {
         const url = this.makeUserPath('ships');
         const payload = { location, type };
         return this.makeAuthRequest(url, 'post', payload);
+    }
+    getShip(shipId) {
+        const url = this.makeUserPath(`ships/${shipId}`);
+        return this.makeAuthRequest(url, 'get');
+    }
+    sellShip(shipId) {
+        const url = this.makeUserPath(`ships/${shipId}`);
+        return this.makeAuthRequest(url, 'delete');
+    }
+    getShips() {
+        const url = this.makeUserPath('ships');
+        return this.makeAuthRequest(url, 'get');
     }
     purchaseGood(shipId, good, quantity) {
         const url = this.makeUserPath('purchase-orders');
@@ -101,7 +114,11 @@ class SpaceTraders {
         return this.makeAuthRequest(url, 'get');
     }
     getFlightPlan(flightId) {
-        const url = this.makeUserPath(`/flight-plans/${flightId}`);
+        const url = this.makeUserPath(`flight-plans/${flightId}`);
+        return this.makeAuthRequest(url, 'get');
+    }
+    getFlightPlans(system = 'OE') {
+        const url = `/game/systems/${system}/flight-plans`;
         return this.makeAuthRequest(url, 'get');
     }
     createFlightPlan(shipId, destination) {
@@ -124,9 +141,10 @@ class SpaceTraders {
         return __awaiter(this, void 0, void 0, function* () {
             const headers = this.makeHeaders(this.token);
             const fullUrl = `${BASE_URL}${url}`;
-            const request = () => utils_1.asyncWrap(method === 'get' ? axios_1.default.get(fullUrl, { headers }) : axios_1.default[method](fullUrl, payload, { headers }));
+            const request = () => utils_1.asyncWrap(method === 'get' || method === 'delete' ? axios_1.default.get(fullUrl, { headers }) : axios_1.default[method](fullUrl, payload, { headers }));
             const [error, resp] = yield this.sendRequest(request);
             const status = error ? error.response.status : resp.status;
+            const data = error ? error.response.data : resp.data;
             const responseHeaders = error ? error.response.headers : resp.headers;
             if (status === 429 && retry < this.maxRetries) {
                 const retryAfter = ((_a = responseHeaders['retry-after']) !== null && _a !== void 0 ? _a : 1) * 1000;
@@ -134,11 +152,13 @@ class SpaceTraders {
                 return this.makeAuthRequest(url, method, payload, retry++);
             }
             if (status === 429)
-                throw new Error('Too many requests.');
+                throw new errors_1.RateLimitError('Too many requests.', 429, data, error);
             if (status === 401 || status === 403)
-                throw new Error('Invalid token.');
+                throw new errors_1.AuthenticationError('Invalid token.', status, data, error);
             if (status === 404)
-                throw new Error('User not found.');
+                throw new errors_1.NotFoundError('User not found.', 404, data, error);
+            if (status === 400)
+                throw new errors_1.RequestError('Request error.', 400, data, error);
             if (error)
                 throw new Error(error.message);
             if (typeof resp.data.error !== 'undefined')

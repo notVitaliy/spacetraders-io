@@ -1,5 +1,6 @@
 import axios, { AxiosError, AxiosResponse } from 'axios'
 import Bottleneck from 'bottleneck'
+import { AuthenticationError, NotFoundError, RateLimitError, RequestError } from './errors'
 
 import {
   AccountResponse,
@@ -7,11 +8,15 @@ import {
   AvailableShipResponse,
   ErrorResponse,
   FlightPlanResponse,
+  FlightPlansResponse,
   LoanType,
   LocationResponse,
   LocationsResponse,
   MarketplaceResponse,
   PurchaseResponse,
+  ShipResponse,
+  ShipsResponse,
+  ShipSellResponse,
   StatusResponse,
   TokenResponse,
 } from './types'
@@ -88,7 +93,7 @@ export class SpaceTraders {
   }
 
   payBackLoan(loanId: string) {
-    const url = this.makeUserPath(`/loans/${loanId}`)
+    const url = this.makeUserPath(`loans/${loanId}`)
 
     return this.makeAuthRequest<AccountResponse>(url, 'put')
   }
@@ -98,6 +103,24 @@ export class SpaceTraders {
     const payload = { location, type }
 
     return this.makeAuthRequest<AccountResponse>(url, 'post', payload)
+  }
+
+  getShip(shipId: string) {
+    const url = this.makeUserPath(`ships/${shipId}`)
+
+    return this.makeAuthRequest<ShipResponse>(url, 'get')
+  }
+
+  sellShip(shipId: string) {
+    const url = this.makeUserPath(`ships/${shipId}`)
+
+    return this.makeAuthRequest<ShipSellResponse>(url, 'delete')
+  }
+
+  getShips() {
+    const url = this.makeUserPath('ships')
+
+    return this.makeAuthRequest<ShipsResponse>(url, 'get')
   }
 
   purchaseGood(shipId: string, good: string, quantity: number) {
@@ -139,9 +162,15 @@ export class SpaceTraders {
   }
 
   getFlightPlan(flightId: string) {
-    const url = this.makeUserPath(`/flight-plans/${flightId}`)
+    const url = this.makeUserPath(`flight-plans/${flightId}`)
 
     return this.makeAuthRequest<FlightPlanResponse>(url, 'get')
+  }
+
+  getFlightPlans(system: string = 'OE') {
+    const url = `/game/systems/${system}/flight-plans`
+
+    return this.makeAuthRequest<FlightPlansResponse>(url, 'get')
   }
 
   createFlightPlan(shipId: string, destination: string) {
@@ -162,18 +191,19 @@ export class SpaceTraders {
     return resp.data.token
   }
 
-  private async makeAuthRequest<T>(url: string, method: 'get' | 'post' | 'put', payload: Record<string, any> = {}, retry = 0): Promise<T> {
+  private async makeAuthRequest<T>(url: string, method: 'get' | 'post' | 'put' | 'delete', payload: Record<string, any> = {}, retry = 0): Promise<T> {
     const headers = this.makeHeaders(this.token)
     const fullUrl = `${BASE_URL}${url}`
 
     const request = () =>
       asyncWrap<AxiosResponse<T | ErrorResponse>, AxiosError>(
-        method === 'get' ? axios.get<T>(fullUrl, { headers }) : axios[method]<T>(fullUrl, payload, { headers }),
+        method === 'get' || method === 'delete' ? axios.get<T>(fullUrl, { headers }) : axios[method]<T>(fullUrl, payload, { headers }),
       )
 
     const [error, resp] = await this.sendRequest(request)
 
     const status = error ? error.response.status : resp.status
+    const data = error ? error.response.data : resp.data
     const responseHeaders = error ? error.response.headers : resp.headers
 
     if (status === 429 && retry < this.maxRetries) {
@@ -182,10 +212,11 @@ export class SpaceTraders {
 
       return this.makeAuthRequest<T>(url, method, payload, retry++)
     }
-    if (status === 429) throw new Error('Too many requests.')
+    if (status === 429) throw new RateLimitError('Too many requests.', 429, data, error)
 
-    if (status === 401 || status === 403) throw new Error('Invalid token.')
-    if (status === 404) throw new Error('User not found.')
+    if (status === 401 || status === 403) throw new AuthenticationError('Invalid token.', status, data, error)
+    if (status === 404) throw new NotFoundError('User not found.', 404, data, error)
+    if (status === 400) throw new RequestError('Request error.', 400, data, error)
 
     if (error) throw new Error(error.message)
 

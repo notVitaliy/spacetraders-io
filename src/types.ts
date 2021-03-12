@@ -8,6 +8,17 @@ export interface Coordinates {
   y: number
 }
 
+export interface AllFlightsPlan {
+  id: string
+  createdAt: string
+  arrivesAt: string
+  from: string
+  shipId: string
+  to: string
+  username: string
+  shipType: string
+}
+
 export interface FlightPlan {
   arrivesAt: string
   destination: string
@@ -119,7 +130,7 @@ export interface YourShip {
   cargo: Cargo[]
   class: string
   id: string
-  location: string
+  location?: string
   manufacturer: string
   maxCargo: number
   plating: number
@@ -162,6 +173,10 @@ export interface FlightPlanResponse {
   flightPlan: FlightPlan
 }
 
+export interface FlightPlansResponse {
+  flightPlans: AllFlightsPlan[]
+}
+
 export interface MarketplaceResponse {
   planet: PlanetWithMarketplace
 }
@@ -170,6 +185,18 @@ export interface PurchaseResponse {
   credits: number
   order: [Order]
   ship: YourShip
+}
+
+export interface ShipSellResponse {
+  success: string
+}
+
+export interface ShipResponse {
+  ships: YourShip & { flightPlanId?: string }
+}
+
+export interface ShipsResponse {
+  ships: (YourShip & { flightPlanId?: string })[]
 }
 
 export interface SystemsResponse {
