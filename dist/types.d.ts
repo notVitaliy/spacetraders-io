@@ -53,12 +53,12 @@ export interface Order {
     quantity: number;
     total: number;
 }
-export interface Planet extends Coordinates {
+export interface Location extends Coordinates {
     name: string;
     symbol: string;
     type: string;
 }
-export interface PlanetWithMarketplace extends Planet {
+export interface LocationWithMarketplace extends Location {
     marketplace: Marketplace[];
 }
 export interface StatusResponse {
@@ -127,7 +127,7 @@ export interface ErrorResponse {
     };
 }
 export interface LocationResponse {
-    planet: Planet;
+    location: Location;
 }
 export interface LocationsResponse {
     locations: Location[];
@@ -139,13 +139,16 @@ export interface FlightPlansResponse {
     flightPlans: AllFlightsPlan[];
 }
 export interface MarketplaceResponse {
-    planet: PlanetWithMarketplace;
+    location: LocationWithMarketplace;
 }
 export interface PurchaseResponse {
     credits: number;
-    order: [Order];
+    order: Order;
     ship: YourShip;
 }
+export declare type SellResponse = PurchaseResponse & {
+    order: [Order];
+};
 export interface ShipSellResponse {
     success: string;
 }
