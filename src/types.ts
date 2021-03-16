@@ -74,13 +74,13 @@ export interface Order {
   total: number
 }
 
-export interface Planet extends Coordinates {
+export interface Location extends Coordinates {
   name: string
   symbol: string
   type: string
 }
 
-export interface PlanetWithMarketplace extends Planet {
+export interface LocationWithMarketplace extends Location {
   marketplace: Marketplace[]
 }
 
@@ -162,7 +162,7 @@ export interface ErrorResponse {
 }
 
 export interface LocationResponse {
-  planet: Planet
+  location: Location
 }
 
 export interface LocationsResponse {
@@ -178,7 +178,7 @@ export interface FlightPlansResponse {
 }
 
 export interface MarketplaceResponse {
-  planet: PlanetWithMarketplace
+  location: LocationWithMarketplace
 }
 
 export interface PurchaseResponse {
@@ -186,6 +186,8 @@ export interface PurchaseResponse {
   order: [Order]
   ship: YourShip
 }
+
+export type SellResponse = PurchaseResponse & {order: Order} // This is for a bug in spacetraders. Should be removed once fixed.
 
 export interface ShipSellResponse {
   success: string
