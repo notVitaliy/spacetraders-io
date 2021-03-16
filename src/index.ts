@@ -14,6 +14,7 @@ import {
   LocationsResponse,
   MarketplaceResponse,
   PurchaseResponse,
+  SellResponse,
   ShipResponse,
   ShipsResponse,
   ShipSellResponse,
@@ -134,7 +135,7 @@ export class SpaceTraders {
     const url = this.makeUserPath('sell-orders')
     const payload = { shipId, good, quantity }
 
-    return this.makeAuthRequest<PurchaseResponse>(url, 'post', payload)
+    return this.makeAuthRequest<SellResponse>(url, 'post', payload)
   }
 
   listSystems() {
