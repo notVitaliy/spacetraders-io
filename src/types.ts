@@ -183,7 +183,7 @@ export interface MarketplaceResponse {
 
 export interface PurchaseResponse {
   credits: number
-  order: [Order]
+  order: Order
   ship: YourShip
 }
 

@@ -1,4 +1,4 @@
-import { AccountResponse, AvailableLoanResponse, AvailableShipResponse, FlightPlanResponse, FlightPlansResponse, LoanType, LocationResponse, LocationsResponse, MarketplaceResponse, PurchaseResponse, ShipResponse, ShipsResponse, ShipSellResponse, StatusResponse } from './types';
+import { AccountResponse, AvailableLoanResponse, AvailableShipResponse, FlightPlanResponse, FlightPlansResponse, LoanType, LocationResponse, LocationsResponse, MarketplaceResponse, PurchaseResponse, SellResponse, ShipResponse, ShipsResponse, ShipSellResponse, StatusResponse } from './types';
 interface Options {
     useSharedLimiter?: boolean;
     maxRetries?: number;
@@ -27,7 +27,7 @@ export declare class SpaceTraders {
     sellShip(shipId: string): Promise<ShipSellResponse>;
     getShips(): Promise<ShipsResponse>;
     purchaseGood(shipId: string, good: string, quantity: number): Promise<PurchaseResponse>;
-    sellGood(shipId: string, good: string, quantity: number): Promise<PurchaseResponse>;
+    sellGood(shipId: string, good: string, quantity: number): Promise<SellResponse>;
     listSystems(): Promise<LocationResponse>;
     listLocations(system?: string, type?: string): Promise<LocationsResponse>;
     getLocation(location: string): Promise<LocationResponse>;
