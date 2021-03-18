@@ -122,7 +122,7 @@ export interface YourLoan {
   due: string
   id: string
   repaymentAmount: boolean
-  status: number
+  status: string
   type: LoanType
 }
 
@@ -187,7 +187,7 @@ export interface PurchaseResponse {
   ship: YourShip
 }
 
-export type SellResponse = PurchaseResponse & {order: Order} // This is for a bug in spacetraders. Should be removed once fixed.
+export type SellResponse = PurchaseResponse & { order: Order } // This is for a bug in spacetraders. Should be removed once fixed.
 
 export interface ShipSellResponse {
   success: string
