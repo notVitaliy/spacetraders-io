@@ -3,14 +3,11 @@ node_js:
   - '15'
 script:
   - npm run build
-branches:
-  only:
-    - release
 deploy:
   provider: npm
   email: visikov@gmail.com
   api_key:
     secure: BZ/fJ5sHSh3Xu4qyRQmtobDsIrvhoxelrYyi99YBjRuEbAx32cKHDc+6PVitKzTmwYDJpDajwOSLdgGTcdr4JFDBpJbhN9vj7nCG0RGEns4fAEhsbdAnPPV1fp5PVchd6KA6A7cdrVxsWzPViikBz4MWFBCBVkVGbSfZzg0TMRiHxIpw1TtAIcDcthVXa4xfS4CjdJxNYCOs8nXwZXMBIykFJTd2Wun5Fgi0qvzKvBcgJjU9S++mKjz93GZblMQR3VoNiAOBhpJq8c/UG67EniPdAFHBqqQuFLTDZbisGTcBSLILTm10tngIh7s6FkyLQeeGGCKf0w6WeGOGspbDI7v51P59UgzefKhUxzuxdUpiHmlK6rBEEbVOX9jKQLBwyF0fiKUzSYELG5alPwsJU7mW5hB0M5osMql+aDpRBlV+Hcw9ZQ9nJr204mXTquf0xNQH+v2dL6p618kou8UntUIG0ZpHJgd7gKXrTMX9Q3rduVGEfZ+FYF7d3MiHFyUCQsH0XevJ/rNJ37u8mIbLuLndiFItuIlTSok8SNri8CwIbLJXPDqiTBtrEjsVqHjyKSq60liYCSWMgewEYWQVxD/Tgk60ev+EeDrYhewvvqMyN98iAvczCLnDI+Yx8VRtCaNRZA+t//RCSCV11XM6RlFya4YDbR8frSeIQLR0i7A=
   on:
-    repo: notVitaliy/spacetraders-io
+    tags: true
   skip_cleanup: true
