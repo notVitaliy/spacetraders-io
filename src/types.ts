@@ -187,7 +187,7 @@ export interface PurchaseResponse {
   ship: YourShip
 }
 
-export type SellResponse = PurchaseResponse & {order: [Order]} // This is for a bug in spacetraders. Should be removed once fixed.
+export type SellResponse = PurchaseResponse & {order: Order} // This is for a bug in spacetraders. Should be removed once fixed.
 
 export interface ShipSellResponse {
   success: string
