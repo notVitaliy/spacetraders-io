@@ -184,7 +184,7 @@ export class SpaceTraders {
 
   jettisonGoods(shipId: string, good: string, quantity: number) {
       const url = this.makeUserPath(`ships/${shipId}/jettison`)
-      const payload = { good, quantity}
+      const payload = { good, quantity }
 
       return this.makeAuthRequest<JettisonResponse>(url, 'put', payload);
   }
