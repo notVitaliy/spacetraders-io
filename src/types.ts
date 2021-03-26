@@ -161,6 +161,12 @@ export interface ErrorResponse {
   }
 }
 
+export interface JettisonResponse {
+  good: Good
+  quantityRemaining: number
+  shipId: string
+}
+
 export interface LocationResponse {
   location: Location
 }

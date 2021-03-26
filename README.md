@@ -113,6 +113,14 @@ Use to determine whether the server is alive
 spaceTraders.getStatus(): Promise<StatusResponse>
 ```
 
+### [jettisonCargo](https://api.spacetraders.io/#api-ships-JettisonCargo)
+
+Use to jettison goods from a ship's cargo 
+
+```typescript
+spaceTraders.jettisonGoods(shipId: string, good: string, quantity: number): Promise<JettisonResponse>
+```
+
 ### [listLocations](https://api.spacetraders.io/#api-locations-locations)
 
 Get locations in a system

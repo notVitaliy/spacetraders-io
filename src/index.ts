@@ -20,6 +20,7 @@ import {
   ShipSellResponse,
   StatusResponse,
   TokenResponse,
+  JettisonResponse,
 } from './types'
 import { asyncSleep, asyncWrap } from './utils'
 
@@ -179,6 +180,13 @@ export class SpaceTraders {
     const payload = { shipId, destination }
 
     return this.makeAuthRequest<FlightPlanResponse>(url, 'post', payload)
+  }
+
+  jettisonGoods(shipId: string, good: string, quantity: number) {
+      const url = this.makeUserPath(`ships/${shipId}/jettison`)
+      const payload = { good, quantity }
+
+      return this.makeAuthRequest<JettisonResponse>(url, 'put', payload);
   }
 
   private async createUser(newUsername: string) {
