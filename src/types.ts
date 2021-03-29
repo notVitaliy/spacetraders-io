@@ -66,6 +66,7 @@ export interface Marketplace {
   pricePerUnit: number
   volumePerUnit: number
   symbol: Good
+  spread: number
 }
 export interface Order {
   good: string
