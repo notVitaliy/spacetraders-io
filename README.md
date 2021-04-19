@@ -192,3 +192,51 @@ Get info on available ships
 ```typescript
 spaceTraders.viewAvailableShips(): Promise<AvailableShipResponse>
 ```
+
+### [getAvailableStructures](https://spacetraders.io/docs/structures)
+
+View available structure types to build
+
+```typescript
+spaceTraders.getAvailableStructures(): Promise<AvailableStructuresResponse>
+```
+
+### [createStructure](https://api.spacetraders.io/#api-structures-NewStructure)
+
+create a new structure
+
+```typescript
+spaceTraders.createStructure(type: string, location: string): Promise<CreateStructureResponse>
+```
+
+### [depositToStructure](https://api.spacetraders.io/#api-structures-DepositGoods)
+
+Deposit goods from a ship to a structure
+
+```typescript
+spaceTraders.depositToStructure(structureId: string, shipId: string, good: Good, quantity: number): Promise<StructureDepositResponse>
+```
+
+### [transferFromStructure](https://api.spacetraders.io/#api-structures-TransferGoods)
+
+Transfer goods from a structure to a ship
+
+```typescript
+spaceTraders.transferFromStructure(structureId: string, shipId: string, good: Good, quantity: number): Promise<StructureTransferResponse>
+```
+
+### [viewStructureDetails](https://api.spacetraders.io/#api-structures-GetStructure)
+
+Get information about a particular structure
+
+```typescript
+spaceTraders.viewStructureDetails(structureId: string): Promise<CreateStructureResponse>
+```
+
+### [listStructures](https://api.spacetraders.io/#api-structures-GetStructures)
+
+Get information about all owned structures
+
+```typescript
+spaceTraders.listStructures(): Promise<ListStructuresResponse>
+```

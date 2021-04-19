@@ -26,6 +26,7 @@ import {
   Good,
   StructureDepositResponse,
   StructureTransferResponse,
+  ListStructuresResponse,
 } from './types'
 import { asyncSleep, asyncWrap } from './utils'
 
@@ -225,6 +226,12 @@ export class SpaceTraders {
     const url = this.makeUserPath(`structures/${structureId}`)
 
     return this.makeAuthRequest<CreateStructureResponse>(url, 'get')
+  }
+
+  listStructures() {
+    const url = this.makeUserPath(`structures`)
+
+    return this.makeAuthRequest<ListStructuresResponse>(url, 'get')
   }
 
   private async createUser(newUsername: string) {

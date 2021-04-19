@@ -67,6 +67,8 @@ export interface Marketplace {
   volumePerUnit: number
   symbol: Good
   spread: number
+  sellPricePerUnit: number
+  purchasePricePerUnit: number
 }
 export interface Order {
   good: string
@@ -149,6 +151,10 @@ export interface StructureTransferResponse {
   transfer: Cargo
   ship: { cargo: Cargo[] }
   structure: { inventory: Cargo[] }
+}
+
+export interface ListStructuresResponse {
+  structures: StructureDetails[]
 }
 
 export interface System {
