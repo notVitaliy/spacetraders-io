@@ -209,7 +209,7 @@ export interface ShipsResponse {
 }
 
 export interface SystemsResponse {
-  systems: System
+  systems: System[]
 }
 
 export interface TokenResponse {

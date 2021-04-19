@@ -21,6 +21,7 @@ import {
   StatusResponse,
   TokenResponse,
   JettisonResponse,
+  SystemsResponse,
 } from './types'
 import { asyncSleep, asyncWrap } from './utils'
 
@@ -142,7 +143,7 @@ export class SpaceTraders {
   listSystems() {
     const url = '/game/systems'
 
-    return this.makeAuthRequest<LocationResponse>(url, 'get')
+    return this.makeAuthRequest<SystemsResponse>(url, 'get')
   }
 
   listLocations(system: string = 'OE', type?: string) {
