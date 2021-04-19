@@ -106,6 +106,51 @@ export interface Ship {
   weapons: number
 }
 
+export interface AvailableStructure {
+  allowedLocationTypes: string[]
+  consumes: Good[]
+  price: number
+  name: string
+  produces: Good[]
+  symbol: string
+}
+
+export interface AvailableStructureResponse {
+  structures: AvailableStructure[]
+}
+
+export interface CreateStructureResponse {
+  structure: StructureDetails
+}
+
+export interface StructureDetails {
+  id: string
+  type: string
+  location: string
+  status: string
+  active: boolean
+  // Bug, awaiting fix
+  ownedBy: {
+    username?: string
+    id?: string
+  }
+  inventory: Cargo[]
+  consumes: Good[]
+  produces: Good[]
+}
+
+export interface StructureDepositResponse {
+  deposit: Cargo
+  ship: { cargo: Cargo[] }
+  structure: { inventory: Cargo[] }
+}
+
+export interface StructureTransferResponse {
+  transfer: Cargo
+  ship: { cargo: Cargo[] }
+  structure: { inventory: Cargo[] }
+}
+
 export interface System {
   symbol: string
   name: string
