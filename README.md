@@ -134,7 +134,7 @@ spaceTraders.listLocations(system?: string, type?: string): Promise<LocationsRes
 Get systems info
 
 ```typescript
-spaceTraders.listSystems(): Promise<LocationResponse>
+spaceTraders.listSystems(): Promise<SystemsResponse>
 ```
 
 ### [payBackLoan](https://api.spacetraders.io/#api-loans)
