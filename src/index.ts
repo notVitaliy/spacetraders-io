@@ -21,6 +21,7 @@ import {
   StatusResponse,
   TokenResponse,
   JettisonResponse,
+  SystemsResponse,
   AvailableStructureResponse,
   CreateStructureResponse,
   Good,
@@ -148,7 +149,7 @@ export class SpaceTraders {
   listSystems() {
     const url = '/game/systems'
 
-    return this.makeAuthRequest<LocationResponse>(url, 'get')
+    return this.makeAuthRequest<SystemsResponse>(url, 'get')
   }
 
   listLocations(system: string = 'OE', type?: string, allowsConstruction?: boolean) {
