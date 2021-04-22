@@ -21,6 +21,12 @@ import {
   StatusResponse,
   TokenResponse,
   JettisonResponse,
+  AvailableStructureResponse,
+  CreateStructureResponse,
+  Good,
+  StructureDepositResponse,
+  StructureTransferResponse,
+  ListStructuresResponse,
 } from './types'
 import { asyncSleep, asyncWrap } from './utils'
 
@@ -145,8 +151,8 @@ export class SpaceTraders {
     return this.makeAuthRequest<LocationResponse>(url, 'get')
   }
 
-  listLocations(system: string = 'OE', type?: string) {
-    const url = !type ? `/game/systems/${system}/locations` : `/game/systems/${system}/locations?type=${type}`
+  listLocations(system: string = 'OE', type?: string, allowsConstruction?: boolean) {
+    const url = !type ? `/game/systems/${system}/locations` : `/game/systems/${system}/locations?type=${type}&allowsConstruction=${allowsConstruction}`
 
     return this.makeAuthRequest<LocationsResponse>(url, 'get')
   }
@@ -183,10 +189,49 @@ export class SpaceTraders {
   }
 
   jettisonGoods(shipId: string, good: string, quantity: number) {
-      const url = this.makeUserPath(`ships/${shipId}/jettison`)
-      const payload = { good, quantity }
+    const url = this.makeUserPath(`ships/${shipId}/jettison`)
+    const payload = { good, quantity }
 
-      return this.makeAuthRequest<JettisonResponse>(url, 'put', payload);
+    return this.makeAuthRequest<JettisonResponse>(url, 'put', payload);
+  }
+
+  getAvailableStructures() {
+    const url = `/game/structures`
+
+    return this.makeAuthRequest<AvailableStructureResponse>(url, 'get')
+  }
+
+  createStructure(type: string, location: string) {
+    const url = this.makeUserPath(`structures`)
+    const payload = { type, location }
+
+    return this.makeAuthRequest<CreateStructureResponse>(url, 'post', payload)
+  }
+
+  depositToStructure(structureId: string, shipId: string, good: Good, quantity: number) {
+    const url = this.makeUserPath(`structures/${structureId}/deposit`)
+    const payload = { shipId, good, quantity }
+
+    return this.makeAuthRequest<StructureDepositResponse>(url, 'post', payload)
+  }
+
+  transferFromStructure(structureId: string, shipId: string, good: Good, quantity: number) {
+    const url = this.makeUserPath(`structures/${structureId}/transfer`)
+    const payload = { shipId, good, quantity }
+
+    return this.makeAuthRequest<StructureTransferResponse>(url, 'post', payload)
+  }
+
+  viewStructureDetails(structureId: string) {
+    const url = this.makeUserPath(`structures/${structureId}`)
+
+    return this.makeAuthRequest<CreateStructureResponse>(url, 'get')
+  }
+
+  listStructures() {
+    const url = this.makeUserPath(`structures`)
+
+    return this.makeAuthRequest<ListStructuresResponse>(url, 'get')
   }
 
   private async createUser(newUsername: string) {
