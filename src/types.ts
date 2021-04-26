@@ -77,12 +77,6 @@ export interface Order {
   total: number
 }
 
-export interface Location extends Coordinates {
-  name: string
-  symbol: string
-  type: string
-}
-
 export interface LocationWithMarketplace extends Location {
   marketplace: Marketplace[]
 }
