@@ -237,7 +237,7 @@ export class SpaceTraders {
 
   private async createUser(newUsername: string) {
     const path = this.makeUserPath(`${newUsername}/token`)
-    const url = `${BASE_URL}/users/${path}`
+    const url = `${BASE_URL}${path}`
 
     const resp = await axios.post<TokenResponse>(url)
 
