@@ -97,6 +97,14 @@ Get info on a location
 spaceTraders.getLocation(location: string): Promise<LocationResponse>;
 ```
 
+### [getLocationShips](https://api.spacetraders.io/#api-locations-locationShips)
+
+Get info on a location's docked ships
+
+```typescript
+spaceTraders.getLocation(location: string): Promise<LocationShipResponse>
+```
+
 ### [getMarketplace](https://api.spacetraders.io/#api-marketplace-marketplace)
 
 Get info on a locations marketplace

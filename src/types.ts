@@ -214,7 +214,12 @@ export interface JettisonResponse {
 }
 
 export interface LocationResponse {
+  dockedShips: number
   location: Location
+}
+
+export interface LocationShipsResponse {
+  ships: Ship[]
 }
 
 export interface LocationsResponse {
