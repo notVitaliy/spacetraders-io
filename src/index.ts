@@ -236,13 +236,13 @@ export class SpaceTraders {
   }
 
   getLocationShips(location: string) {
-    const url = this.makeUserPath(`/game/locations/${location}/ships`)
+    const url = `/game/locations/${location}/ships`
 
     return this.makeAuthRequest<LocationShipsResponse>(url, 'get')
   }
 
   private async createUser() {
-    const path = this.makeUserPath(`/token`)
+    const path = this.makeUserPath(`token`)
     const url = `${BASE_URL}${path}`
 
     const resp = await axios.post<TokenResponse>(url)
