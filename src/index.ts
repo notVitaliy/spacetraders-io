@@ -62,9 +62,8 @@ export class SpaceTraders {
 
   async init(username: string, token?: string) {
     if (!username) throw new Error('Username is required.')
-    if (!token) return await this.createUser(username)
-
     this.username = username
+    if (!token) return await this.createUser()
     this.token = token
 
     return token
@@ -242,8 +241,8 @@ export class SpaceTraders {
     return this.makeAuthRequest<LocationShipsResponse>(url, 'get')
   }
 
-  private async createUser(newUsername: string) {
-    const path = this.makeUserPath(`${newUsername}/token`)
+  private async createUser() {
+    const path = this.makeUserPath(`/token`)
     const url = `${BASE_URL}${path}`
 
     const resp = await axios.post<TokenResponse>(url)
