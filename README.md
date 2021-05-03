@@ -65,12 +65,12 @@ const spaceTraders = new SpaceTraders({ useSharedLimiter: true }, { maxConcurren
 
 ## Methods
 
-### [createFlightPlan](https://api.spacetraders.io/#api-flight_plans-NewFlightPlan)
+init
 
-Submit a new flight plan
+Login or create a new account
 
 ```typescript
-spaceTraders.createFlightPlan(shipId: string, destination: string): Promise<FlightPlanResponse>
+spaceTraders.init(username: string, token?: string): Promise<string>
 ```
 
 ### [getAccount](https://api.spacetraders.io/#api-users-GetInfo)
@@ -79,6 +79,38 @@ Get your info
 
 ```typescript
 spaceTraders.getAccount(): Promise<AccountResponse>
+```
+
+### [createFlightPlan](https://api.spacetraders.io/#api-flight_plans-NewFlightPlan)
+
+Submit a new flight plan
+
+```typescript
+spaceTraders.createFlightPlan(shipId: string, destination: string): Promise<FlightPlanResponse>
+```
+
+### [createStructure](https://api.spacetraders.io/#api-structures-NewStructure)
+
+create a new structure
+
+```typescript
+spaceTraders.createStructure(type: string, location: string): Promise<CreateStructureResponse>
+```
+
+### [depositToStructure](https://api.spacetraders.io/#api-structures-DepositGoods)
+
+Deposit goods from a ship to a structure
+
+```typescript
+spaceTraders.depositToStructure(structureId: string, shipId: string, good: Good, quantity: number): Promise<StructureDepositResponse>
+```
+
+### [getAvailableStructures](https://spacetraders.io/docs/structures)
+
+View available structure types to build
+
+```typescript
+spaceTraders.getAvailableStructures(): Promise<AvailableStructuresResponse>
 ```
 
 ### [getFlightPlan](https://api.spacetraders.io/#api-flight_plans-GetFlightPlan)
@@ -123,7 +155,7 @@ spaceTraders.getStatus(): Promise<StatusResponse>
 
 ### [jettisonCargo](https://api.spacetraders.io/#api-ships-JettisonCargo)
 
-Use to jettison goods from a ship's cargo 
+Use to jettison goods from a ship's cargo
 
 ```typescript
 spaceTraders.jettisonGoods(shipId: string, good: string, quantity: number): Promise<JettisonResponse>
@@ -135,6 +167,14 @@ Get locations in a system
 
 ```typescript
 spaceTraders.listLocations(system?: string, type?: string): Promise<LocationsResponse>
+```
+
+### [listStructures](https://api.spacetraders.io/#api-structures-GetStructures)
+
+Get information about all owned structures
+
+```typescript
+spaceTraders.listStructures(): Promise<ListStructuresResponse>
 ```
 
 ### [listSystems](https://api.spacetraders.io/#api-systems-systems)
@@ -185,6 +225,14 @@ Request a new loan
 spaceTraders.takeOutLoan(type: LoanType): Promise<AccountResponse>
 ```
 
+### [transferFromStructure](https://api.spacetraders.io/#api-structures-TransferGoods)
+
+Transfer goods from a structure to a ship
+
+```typescript
+spaceTraders.transferFromStructure(structureId: string, shipId: string, good: Good, quantity: number): Promise<StructureTransferResponse>
+```
+
 ### [viewAvailableLoans](https://api.spacetraders.io/#api-loans-loans)
 
 Get available loans
@@ -201,50 +249,10 @@ Get info on available ships
 spaceTraders.viewAvailableShips(): Promise<AvailableShipResponse>
 ```
 
-### [getAvailableStructures](https://spacetraders.io/docs/structures)
-
-View available structure types to build
-
-```typescript
-spaceTraders.getAvailableStructures(): Promise<AvailableStructuresResponse>
-```
-
-### [createStructure](https://api.spacetraders.io/#api-structures-NewStructure)
-
-create a new structure
-
-```typescript
-spaceTraders.createStructure(type: string, location: string): Promise<CreateStructureResponse>
-```
-
-### [depositToStructure](https://api.spacetraders.io/#api-structures-DepositGoods)
-
-Deposit goods from a ship to a structure
-
-```typescript
-spaceTraders.depositToStructure(structureId: string, shipId: string, good: Good, quantity: number): Promise<StructureDepositResponse>
-```
-
-### [transferFromStructure](https://api.spacetraders.io/#api-structures-TransferGoods)
-
-Transfer goods from a structure to a ship
-
-```typescript
-spaceTraders.transferFromStructure(structureId: string, shipId: string, good: Good, quantity: number): Promise<StructureTransferResponse>
-```
-
 ### [viewStructureDetails](https://api.spacetraders.io/#api-structures-GetStructure)
 
 Get information about a particular structure
 
 ```typescript
 spaceTraders.viewStructureDetails(structureId: string): Promise<CreateStructureResponse>
-```
-
-### [listStructures](https://api.spacetraders.io/#api-structures-GetStructures)
-
-Get information about all owned structures
-
-```typescript
-spaceTraders.listStructures(): Promise<ListStructuresResponse>
 ```
