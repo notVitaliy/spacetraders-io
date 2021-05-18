@@ -21,6 +21,7 @@ export interface AvailableStructure {
 export interface Cargo {
   good: Good
   quantity: number
+  totalVolume?: number
 }
 
 export interface Coordinates {
@@ -157,6 +158,8 @@ export interface YourShip {
   speed: number
   type: string
   weapons: number
+  x?: number
+  y?: number
 }
 
 // Responses
@@ -243,6 +246,11 @@ export interface ShipsResponse {
   ships: (YourShip & { flightPlanId?: string })[]
 }
 
+export interface ShipTransferResponse {
+  fromShip: YourShip
+  toShip: YourShip
+}
+
 export interface SystemsResponse {
   systems: System[]
 }
@@ -253,14 +261,14 @@ export interface StatusResponse {
 
 export interface StructureDepositResponse {
   deposit: Cargo
-  ship: { cargo: Cargo[] }
-  structure: { inventory: Cargo[] }
+  ship: YourShip
+  structure: StructureDetails
 }
 
 export interface StructureTransferResponse {
   transfer: Cargo
-  ship: { cargo: Cargo[] }
-  structure: { inventory: Cargo[] }
+  ship: YourShip
+  structure: StructureDetails
 }
 
 export interface TokenResponse {

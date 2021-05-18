@@ -225,6 +225,14 @@ Request a new loan
 spaceTraders.takeOutLoan(type: LoanType): Promise<AccountResponse>
 ```
 
+### [transferFromShip](https://api.spacetraders.io/#api-ships-TransferCargo)
+
+Transfers good between two owned ships
+
+```typescript
+spaceTraders.transferGoodsBetweenShips(fromShip: string, toShip: string, good: Good, quantity: number): Promise<ShipTransferResponse>
+```
+
 ### [transferFromStructure](https://api.spacetraders.io/#api-structures-TransferGoods)
 
 Transfer goods from a structure to a ship

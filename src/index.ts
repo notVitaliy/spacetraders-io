@@ -24,6 +24,7 @@ import {
   ShipResponse,
   ShipSellResponse,
   ShipsResponse,
+  ShipTransferResponse,
   StatusResponse,
   StructureDepositResponse,
   StructureTransferResponse,
@@ -77,19 +78,19 @@ export class SpaceTraders {
   }
 
   getAccount() {
-    const url = this.makeUserPath()
+    const url = this.makeUserPath(`account`)
 
     return this.makeAuthRequest<AccountResponse>(url, 'get')
   }
 
   viewAvailableLoans() {
-    const url = '/game/loans'
+    const url = '/types/loans'
 
     return this.makeAuthRequest<AvailableLoanResponse>(url, 'get')
   }
 
   viewAvailableShips() {
-    const url = '/game/ships'
+    const url = '/types/ships'
 
     return this.makeAuthRequest<AvailableShipResponse>(url, 'get')
   }
@@ -146,28 +147,30 @@ export class SpaceTraders {
     return this.makeAuthRequest<SellResponse>(url, 'post', payload)
   }
 
-  listSystems() {
-    const url = '/game/systems'
+  /* TODO: No longer exists? */
 
-    return this.makeAuthRequest<SystemsResponse>(url, 'get')
-  }
+  // listSystems() {
+  //   const url = '/game/systems'
+
+  //   return this.makeAuthRequest<SystemsResponse>(url, 'get')
+  // }
 
   listLocations(system: string = 'OE', type?: string, allowsConstruction?: boolean) {
     const url = !type
-      ? `/game/systems/${system}/locations`
-      : `/game/systems/${system}/locations?type=${type}&allowsConstruction=${allowsConstruction}`
+      ? `/systems/${system}/locations`
+      : `/systems/${system}/locations?type=${type}&allowsConstruction=${allowsConstruction}`
 
     return this.makeAuthRequest<LocationsResponse>(url, 'get')
   }
 
   getLocation(location: string) {
-    const url = `/game/locations/${location}`
+    const url = `/locations/${location}`
 
     return this.makeAuthRequest<LocationResponse>(url, 'get')
   }
 
   getMarketplace(location: string) {
-    const url = `/game/locations/${location}/marketplace`
+    const url = `/locations/${location}/marketplace`
 
     return this.makeAuthRequest<MarketplaceResponse>(url, 'get')
   }
@@ -179,7 +182,7 @@ export class SpaceTraders {
   }
 
   getFlightPlans(system: string = 'OE') {
-    const url = `/game/systems/${system}/flight-plans`
+    const url = `/systems/${system}/flight-plans`
 
     return this.makeAuthRequest<FlightPlansResponse>(url, 'get')
   }
@@ -195,11 +198,11 @@ export class SpaceTraders {
     const url = this.makeUserPath(`ships/${shipId}/jettison`)
     const payload = { good, quantity }
 
-    return this.makeAuthRequest<JettisonResponse>(url, 'put', payload)
+    return this.makeAuthRequest<JettisonResponse>(url, 'post', payload)
   }
 
   getAvailableStructures() {
-    const url = `/game/structures`
+    const url = `/types/structures`
 
     return this.makeAuthRequest<AvailableStructureResponse>(url, 'get')
   }
@@ -211,7 +214,7 @@ export class SpaceTraders {
     return this.makeAuthRequest<CreateStructureResponse>(url, 'post', payload)
   }
 
-  depositToStructure(structureId: string, shipId: string, good: Good, quantity: number) {
+  depositToOwnedStructure(structureId: string, shipId: string, good: Good, quantity: number) {
     const url = this.makeUserPath(`structures/${structureId}/deposit`)
     const payload = { shipId, good, quantity }
 
@@ -238,14 +241,24 @@ export class SpaceTraders {
   }
 
   getLocationShips(location: string) {
-    const url = `/game/locations/${location}/ships`
+    const url = `/locations/${location}/ships`
 
     return this.makeAuthRequest<LocationShipsResponse>(url, 'get')
   }
 
+  transferGoodsBetweenShips(fromShip: string, toShip: string, good: Good, quantity: number) {
+    const url = this.makeUserPath(`ships/${fromShip}/transfer`);
+    const payload = {
+      toShipId: toShip,
+      good,
+      quantity
+    }
+
+    return this.makeAuthRequest<ShipTransferResponse>(url, 'post', payload)
+  }
+
   private async createUser() {
-    const path = this.makeUserPath(`token`)
-    const url = `${BASE_URL}${path}`
+    const url = `${BASE_URL}/users/${this.username}/claim`
 
     const resp = await axios.post<TokenResponse>(url)
 
@@ -295,8 +308,8 @@ export class SpaceTraders {
     return request()
   }
 
-  private makeUserPath(fragment?: string) {
-    return fragment ? `/users/${this.username}/${fragment}` : `/users/${this.username}`
+  private makeUserPath(fragment: string) {
+    return `/my/${fragment}`
   }
 
   private makeHeaders(token: string) {
