@@ -28,7 +28,6 @@ import {
   StatusResponse,
   StructureDepositResponse,
   StructureTransferResponse,
-  SystemsResponse,
   TokenResponse,
 } from './types'
 import { asyncSleep, asyncWrap } from './utils'

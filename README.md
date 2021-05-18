@@ -102,7 +102,7 @@ spaceTraders.createStructure(type: string, location: string): Promise<CreateStru
 Deposit goods from a ship to a structure
 
 ```typescript
-spaceTraders.depositToStructure(structureId: string, shipId: string, good: Good, quantity: number): Promise<StructureDepositResponse>
+spaceTraders.depositToOwnedStructure(structureId: string, shipId: string, good: Good, quantity: number): Promise<StructureDepositResponse>
 ```
 
 ### [getAvailableStructures](https://spacetraders.io/docs/structures)
