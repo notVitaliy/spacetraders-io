@@ -264,3 +264,11 @@ Get information about a particular structure
 ```typescript
 spaceTraders.viewStructureDetails(structureId: string): Promise<CreateStructureResponse>
 ```
+
+### [warpJump](https://api.spacetraders.io/#api-warp_jump-WarpJump)
+
+Attempt a warp jump with a ship
+
+```typescript
+spaceTraders.warpJump(shipId: string): Promise<FlightPlanResponse>
+```
