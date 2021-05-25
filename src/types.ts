@@ -71,7 +71,7 @@ export interface Location extends Coordinates {
   type: string
 }
 
-export interface LocationWithMarketplace extends Location {
+export interface LocationWithMarketplace {
   marketplace: Marketplace[]
 }
 
@@ -173,7 +173,7 @@ export interface AvailableLoanResponse {
 }
 
 export interface AvailableShipResponse {
-  ships: Ship[]
+  shipListings: Ship[]
 }
 
 export interface AvailableStructureResponse {
@@ -223,7 +223,7 @@ export interface LocationsResponse {
 }
 
 export interface MarketplaceResponse {
-  location: LocationWithMarketplace
+  marketplace: Marketplace[]
 }
 
 export interface PurchaseResponse {

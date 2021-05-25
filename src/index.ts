@@ -88,8 +88,8 @@ export class SpaceTraders {
     return this.makeAuthRequest<AvailableLoanResponse>(url, 'get')
   }
 
-  viewAvailableShips() {
-    const url = '/types/ships'
+  viewAvailableShips(system: string) {
+    const url = `/systems/${system}/ship-listings`
 
     return this.makeAuthRequest<AvailableShipResponse>(url, 'get')
   }
@@ -254,6 +254,15 @@ export class SpaceTraders {
     }
 
     return this.makeAuthRequest<ShipTransferResponse>(url, 'post', payload)
+  }
+
+  warpShip(shipId: string) {
+    const url = this.makeUserPath(`warp-jumps`)
+    const payload = {
+      shipId
+    }
+
+    return this.makeAuthRequest<FlightPlanResponse>(url, 'post', payload);
   }
 
   private async createUser() {
