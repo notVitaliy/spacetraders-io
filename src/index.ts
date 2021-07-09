@@ -268,7 +268,7 @@ export class SpaceTraders {
   private async createUser() {
     const url = `${BASE_URL}/users/${this.username}/claim`
 
-    const resp = await axios.post<TokenResponse>(url)
+    const resp = await axios.post<TokenResponse>(url).catch((e: any)=>{return e.response})
 
     if (resp.status >= 300) throw new Error('Username is taken')
 
