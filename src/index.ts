@@ -268,11 +268,17 @@ export class SpaceTraders {
   private async createUser() {
     const url = `${BASE_URL}/users/${this.username}/claim`
 
-    const resp = await axios.post<TokenResponse>(url)
+    try {
+      const resp = await axios.post<TokenResponse>(url).catch((e: any)=>{return e.response})
 
-    if (resp.status >= 300) throw new Error('Username is taken')
+      if (resp.status >= 300) throw new Error('Username is taken')
 
-    return resp.data.token
+      return resp.data.token
+    }
+    catch(e) {
+      throw e
+    }
+    
   }
 
   private async makeAuthRequest<T>(url: string, method: 'get' | 'post' | 'put' | 'delete', payload: Record<string, any> = {}, retry = 0): Promise<T> {
